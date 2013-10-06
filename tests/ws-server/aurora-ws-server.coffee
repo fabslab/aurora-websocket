@@ -4,7 +4,7 @@ WebSocketServer = require('ws').Server
 port = 8080
 
 wss = new WebSocketServer { port }
-audioFolder = './audio'
+audioFolder = '../data/m4a'
 
 wss.on 'connection', (ws) ->
   audioStream = null

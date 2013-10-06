@@ -14,7 +14,7 @@
     port: port
   });
 
-  audioFolder = './audio';
+  audioFolder = '../data/m4a';
 
   wss.on('connection', function(ws) {
     var audioPath, audioStream, createFileStream, playing;
