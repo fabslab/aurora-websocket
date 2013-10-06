@@ -72,8 +72,8 @@ class AV.WebSocketSource extends AV.EventEmitter
 
 
 AV.Asset.fromWebSocket = (serverUrl, fileName) ->
-    source = new AV.WebSocketSource(serverUrl, fileName)
-    return new AV.Asset(source)
+  source = new AV.WebSocketSource(serverUrl, fileName)
+  return new AV.Asset(source)
 
 AV.Player.fromWebSocket = (serverUrl, fileName) ->
   asset = AV.Asset.fromWebSocket(serverUrl, fileName)
