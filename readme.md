@@ -19,3 +19,6 @@ player.play();
 
 Look to the server-examples folder for the server implementation required.
 So far I have only provided an implementation in Node, feel free to pull request with others.
+
+
+MIT Licensed.
