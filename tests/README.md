@@ -6,12 +6,6 @@ run in both Node.js and the browser.
 
 ##Setup
 
-First, you'll need the test data, so init your git submodules to download them, and update them
-if you've already downloaded them before.
-
-    git submodule init
-    git submodule update
-
 Running the tests requires running an HTTP server to host both QUnit itself (for the browser),
 as well as the test data files as used by both the browser and Node to test HTTP loading.
 
@@ -23,7 +17,9 @@ If you already have the test directory on an HTTP server, all you need to do is 
 the "tests" folder to the `HTTP_BASE` variable in `config.coffee`.
 
 ## To run in the browser:
+
 1. Follow the setup steps above.
+
 2. Start HTTP server to host the tests:
 
         importer test.coffee -p 3031
