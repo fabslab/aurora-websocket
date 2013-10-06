@@ -1,0 +1,15 @@
+{
+  "name": "aurora-ws-server",
+  "version": "1.0",
+  "description": "Server implementation for streaming audio over WebSockets to the aurora.js framework.",
+  "main": "aurora-ws-server.js",
+  "dependencies": {
+    "ws": "~0.4.28"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fabien Brooke",
+  "license": "MIT"
+}
