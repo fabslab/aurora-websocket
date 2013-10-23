@@ -35,7 +35,8 @@ class AV.WebSocketSource extends AV.EventEmitter
 
     @socket.onopen = =>
       @open = true
-      @socket.send JSON.stringify { @fileName }
+      if @fileName
+        @socket.send JSON.stringify { @fileName }
       # send any buffered message
       if @_bufferMessage
         @socket.send @_bufferMessage
@@ -43,7 +44,6 @@ class AV.WebSocketSource extends AV.EventEmitter
 
     @socket.onmessage = (e) =>
       data = e.data
-
       if typeof data is 'string'
         data = JSON.parse data
         if data.fileSize?
@@ -61,7 +61,6 @@ class AV.WebSocketSource extends AV.EventEmitter
 
     @socket.onclose = (e) =>
       @open = false
-
       if e.wasClean
         @emit 'end'
       else

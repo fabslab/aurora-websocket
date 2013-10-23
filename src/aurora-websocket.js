@@ -52,9 +52,11 @@
       this.socket.binaryType = 'arraybuffer';
       this.socket.onopen = function() {
         _this.open = true;
-        _this.socket.send(JSON.stringify({
-          fileName: _this.fileName
-        }));
+        if (_this.fileName) {
+          _this.socket.send(JSON.stringify({
+            fileName: _this.fileName
+          }));
+        }
         if (_this._bufferMessage) {
           _this.socket.send(_this._bufferMessage);
           return _this._bufferMessage = null;
