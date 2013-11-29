@@ -42,6 +42,12 @@ wss.on 'connection', (ws) ->
     return
 
   createFileStream = ->
+    # you will most likely want to stream at the native playback rate of the
+    # audio instead of doing this since it will stream too fast and the client will 
+    # have to wait for all websocket events (and thus the whole file to be transferred) 
+    # before it can begin playback
+    # ffmpeg offers that style of streaming using the "-re" flag
+    # https://trac.ffmpeg.org/wiki/StreamingGuide#The-reflag
     audioStream = fs.createReadStream audioPath
 
     unless playing
