@@ -1,5 +1,6 @@
 fs = require 'fs'
 path = require 'path'
+Throttle = require 'throttle'
 WebSocketServer = require('ws').Server
 port = 8080
 
@@ -42,13 +43,10 @@ wss.on 'connection', (ws) ->
     return
 
   createFileStream = ->
-    # you will most likely want to stream at the native playback rate of the
-    # audio instead of doing this since it will stream too fast and the client will 
-    # have to wait for all websocket events (and thus the whole file to be transferred) 
-    # before it can begin playback
-    # ffmpeg offers that style of streaming using the "-re" flag
-    # https://trac.ffmpeg.org/wiki/StreamingGuide#The-reflag
-    audioStream = fs.createReadStream audioPath
+    # throttle to a rate that should be enough for FLAC playback
+    # if we don't throttle the WebSocket client can't start playback
+    # until the whole file has streamed since the events happen too fast
+    audioStream = fs.createReadStream(audioPath).pipe(new Throttle(700 * 1024))
 
     unless playing
       audioStream.pause()
@@ -57,6 +55,7 @@ wss.on 'connection', (ws) ->
       ws.send data, { binary: true }
 
     audioStream.on 'end', ->
+      console.log 'end'
       ws.send JSON.stringify { end: true }
 
 console.log "Serving WebSocket for Aurora.js on port #{port}"

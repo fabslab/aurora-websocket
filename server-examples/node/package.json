@@ -4,7 +4,8 @@
   "description": "Server implementation for streaming audio over WebSockets to the aurora.js framework.",
   "main": "aurora-ws-server.js",
   "dependencies": {
-    "ws": "~0.4.28"
+    "ws": "~0.4.28",
+    "throttle": "~1.0.3"
   },
   "devDependencies": {},
   "scripts": {
