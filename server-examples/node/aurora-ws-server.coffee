@@ -55,7 +55,6 @@ wss.on 'connection', (ws) ->
       ws.send data, { binary: true }
 
     audioStream.on 'end', ->
-      console.log 'end'
       ws.send JSON.stringify { end: true }
 
 console.log "Serving WebSocket for Aurora.js on port #{port}"

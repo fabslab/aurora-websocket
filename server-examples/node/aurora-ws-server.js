@@ -71,7 +71,6 @@
         });
       });
       return audioStream.on('end', function() {
-        console.log('end');
         return ws.send(JSON.stringify({
           end: true
         }));
