@@ -9,11 +9,11 @@ audioFolder = './audio'
 
 wss.on 'connection', (ws) ->
   audioStream = null
-  audioPath = ''
   playing = false
 
   ws.on 'close', ->
     audioStream?.removeAllListeners()
+    audioStream = null
 
   ws.on 'message', (msg) ->
     msg = JSON.parse msg
@@ -25,7 +25,7 @@ wss.on 'connection', (ws) ->
           ws.send JSON.stringify { error: 'Could not retrieve file.' }
         else
           ws.send JSON.stringify { fileSize: stats.size }
-          createFileStream()
+          createFileStream audioPath
 
     else if msg.resume
       audioStream?.resume()
@@ -42,11 +42,11 @@ wss.on 'connection', (ws) ->
 
     return
 
-  createFileStream = ->
+  createFileStream = (audioPath) ->
     # throttle to a rate that should be enough for FLAC playback
     # if we don't throttle the WebSocket client can't start playback
     # until the whole file has streamed since the events happen too fast
-    audioStream = fs.createReadStream(audioPath).pipe(new Throttle(700 * 1024))
+    audioStream = fs.createReadStream(audioPath).pipe new Throttle(700 * 1024)
 
     unless playing
       audioStream.pause()

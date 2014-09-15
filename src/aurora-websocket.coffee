@@ -14,21 +14,21 @@ class AV.WebSocketSource extends AV.EventEmitter
     @_setupSocket()
 
   start: ->
-    @_send JSON.stringify { resume: true }
+    @_send { resume: true }
 
   pause: ->
-    @_send JSON.stringify { pause: true }
+    @_send { pause: true }
 
   reset: ->
-    @_send JSON.stringify { reset: true }
+    @_send { reset: true }
 
   _send: (msg) ->
     if not @open
       # only the latest message is relevant
-      # so an array is not used
+      # so an array is not used to buffer
       @_bufferMessage = msg
     else
-      @socket.send msg
+      @socket.send JSON.stringify msg
 
   _setupSocket: ->
     @socket.binaryType = 'arraybuffer'
@@ -36,10 +36,10 @@ class AV.WebSocketSource extends AV.EventEmitter
     @socket.onopen = =>
       @open = true
       if @fileName
-        @socket.send JSON.stringify { @fileName }
+        @_send { @fileName }
       # send any buffered message
       if @_bufferMessage
-        @socket.send @_bufferMessage
+        @_send @_bufferMessage
         @_bufferMessage = null
 
     @socket.onmessage = (e) =>
