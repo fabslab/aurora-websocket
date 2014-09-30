@@ -1,6 +1,6 @@
 fs = require 'fs'
 path = require 'path'
-Throttle = require 'throttle'
+Throttle = require('stream-throttle').Throttle
 WebSocketServer = require('ws').Server
 port = 8080
 
@@ -46,7 +46,7 @@ wss.on 'connection', (ws) ->
     # throttle to a rate that should be enough for FLAC playback
     # if we don't throttle the WebSocket client can't start playback
     # until the whole file has streamed since the events happen too fast
-    audioStream = fs.createReadStream(audioPath).pipe new Throttle(700 * 1024)
+    audioStream = fs.createReadStream(audioPath).pipe new Throttle({ rate: 700 * 1024 })
 
     unless playing
       audioStream.pause()

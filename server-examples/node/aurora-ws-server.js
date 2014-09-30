@@ -6,7 +6,7 @@
 
   path = require('path');
 
-  Throttle = require('throttle');
+  Throttle = require('stream-throttle').Throttle;
 
   WebSocketServer = require('ws').Server;
 
@@ -64,7 +64,9 @@
       }
     });
     return createFileStream = function(audioPath) {
-      audioStream = fs.createReadStream(audioPath).pipe(new Throttle(700 * 1024));
+      audioStream = fs.createReadStream(audioPath).pipe(new Throttle({
+        rate: 700 * 1024
+      }));
       if (!playing) {
         audioStream.pause();
       }
